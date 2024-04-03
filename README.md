@@ -13,7 +13,6 @@ To use this code you will need:
 
 The open access Ordnance Survey geometry for all the roads in the country:
 https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads#get
-(this is... er... hopefully... included in the repo via LFS)
 
 The lists of names included in my various .csv files are currently sourced from Wikipedia, and I'm not sorry about this. My mum has suggested I cross-check with Whitaker's Almanack, which, amazingly, I'm going to do.
 
