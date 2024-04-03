@@ -3,7 +3,7 @@ library(sf)
 
 # read in the roads
 G_pre_shape <- (
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\roads_map\\oproad_gb.gpkg"
+  "roads_map\\oproad_gb.gpkg"
 )
 G_layers <- st_layers(
   G_pre_shape
@@ -28,6 +28,6 @@ attr(road_names, "agr") <- NULL
 
 # keen to reduce load, let's save that to .csv
 write.csv(road_names, 
-          file = "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\.words_output\\road_names.csv", 
+          file = ".words_output\\road_names.csv", 
           row.names = FALSE
 )

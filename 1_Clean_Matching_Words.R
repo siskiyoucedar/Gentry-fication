@@ -13,7 +13,7 @@ ideal <- tibble(
 
 # read in the duchies, marquesses, earldoms, viscounts
 full_list <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\words_input\\aristocracy.csv"
+  "words_input\\aristocracy.csv"
 )
 
 # cleaning
@@ -104,7 +104,7 @@ full_list <- full_list |>
 
 # read in the county towns .csv
 county_names <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\words_input\\county_towns.csv"
+  "words_input\\county_towns.csv"
 ) |>
   # fix format so we have one column of words to look for
   pivot_longer(
@@ -163,7 +163,7 @@ full_list <- full_list |>
   
 # read in the monarch .csv
 monarch_names <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\words_input\\monarchs.csv"
+  "words_input\\monarchs.csv"
 ) |>
     
   # add powers
@@ -186,7 +186,7 @@ monarch_names <- read.csv(
 # read in the nouns .csv
 
 noun_names <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\words_input\\nouns.csv"
+  "words_input\\nouns.csv"
 ) |>
   
   # add powers
@@ -218,7 +218,7 @@ full_list <- as.data.frame(rbind(
 
 # write to disk
 write.csv(full_list, 
-          file = "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\.words_output\\all_names.csv", 
+          file = ".words_output\\all_names.csv", 
           row.names = FALSE
 )
 

@@ -3,13 +3,15 @@ library(sf)
 
 # pull through the data
 full_list <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\.words_output\\all_names.csv"
+  ".words_output\\all_names.csv"
 )
 road_names <- read.csv(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\.words_output\\road_names.csv"
+  ".words_output\\road_names.csv"
 )
+
+# pull this one from OS website noted in readme
 G_pre_shape <- (
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\roads_map\\oproad_gb.gpkg"
+  "roads_map\\oproad_gb.gpkg"
 )
 G_layers <- st_layers(
   G_pre_shape
@@ -78,7 +80,7 @@ roads_joined |> filter(
 
 st_write(
   roads_joined, 
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\roads_output.gpkg",
+  "roads_output.gpkg",
   append = TRUE
   )
 

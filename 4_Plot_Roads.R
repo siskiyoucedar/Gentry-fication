@@ -2,20 +2,24 @@ library(tidyverse)
 library(sf)
 library(tmap)
 
+# # # INCOMPLETE, DO NOT RUN
+
 # read the region .shp
+# you'll need to get this from the open geo portal
 # regions <- st_read(
-#   "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\Regions\\RGN_DEC_2023_EN_BFC.shp"
+#   "regions_map\\RGN_DEC_2023_EN_BFC.shp"
 # )
 
 # read the fancy road file
 roads_joined <- st_read(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\roads_output.gpkg"
+  "roads_output.gpkg"
 ) |>
   st_transform(27700)
 
 # read the london.shp
+# you'll need to get this from the open geo portal
 london_map <- st_read(
-  "C:\\Users\\siski\\OneDrive - University College London\\Projects\\Mapping\\Gentry-fication\\LBs\\London_Borough_Excluding_MHW.shp"
+  "london_map\\London_Borough_Excluding_MHW.shp"
 ) |>
   st_transform(27700)
 
