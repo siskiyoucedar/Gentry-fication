@@ -6,3 +6,11 @@
 .httr-oauth
 .DS_Store
 .quarto
+.gpkg
+.shp
+.dbf
+.atx
+.prj
+.sbn
+.sbx
+.shx
