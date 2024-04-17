@@ -1,6 +1,6 @@
 .Rproj.user
 .Rhistory
-.RData
+*.RData
 .Ruserdata
 .Rdata
 .httr-oauth
@@ -16,3 +16,4 @@
 *.shx
 *.gpkg
 .words_output/road_names.csv
+"Whitaker's Almanack 2011.pdf"

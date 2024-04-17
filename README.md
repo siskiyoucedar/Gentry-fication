@@ -11,14 +11,15 @@ A project looking at the relationship between aristocratic names and the street 
 
 To use this code you will need:
 
-The open access Ordnance Survey geometry for all the roads in the country:
-https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads#get
+- The open access Ordnance Survey geometry for all the roads in the country, available [here](https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads#get): **oproad_gb.gpkg**
+- The five files included in *words_input* (aristocracy.csv, county_towns.csv, monarchs.csv, nouns.csv, place_names.csv)
+    - The lists of names included in my various .csv files are currently sourced from Wikipedia, and I'm not sorry about this. My mum has suggested I cross-check with Whitaker's Almanack, which, amazingly, I'm going to do.
+    - Whitaker's Almanack is also included in the repo.
 
-The lists of names included in my various .csv files are currently sourced from Wikipedia, and I'm not sorry about this. My mum has suggested I cross-check with Whitaker's Almanack, which, amazingly, I'm going to do.
+## Current to-do
 
 Trying to run commands on 400,000 datapoints is proving a dead bother, so I'm not going to do it. Instead:
 
-## Current to-do
 - Filter to Greater London (work by borough) before joining names-data
 - Produce stats on % aristocratic names in each LB
 - Build out hypotheses: one would expect higher % across inner London with particular hotspots in Westminster, Kensington for obvious reasons
