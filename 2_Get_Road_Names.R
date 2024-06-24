@@ -1,7 +1,9 @@
 library(tidyverse)
 library(sf)
 
-# read in the roads
+## Separate road names from spatial data
+
+# read in the roads (available here: https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads#get)
 G_pre_shape <- (
   "roads_map\\oproad_gb.gpkg"
 )
@@ -13,6 +15,9 @@ G_layers <- st_layers(
 roads <- st_read(
   G_pre_shape, "road_link"
 )
+
+# We'll keep the "roads" object as is for our records.
+rm(G_layers,G_pre_shape)
 
 # clear off the roads with no names
 road_names <- as.data.frame(roads)|> 

@@ -28,7 +28,7 @@ roads <- st_read(
 # do some brief corrections for surnames
 # remove geographical indicators
 full_list <- full_list |>
-  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Lee", "Long", "Mills", "Munro", "Weir", "Wood")))
+  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Lee", "Long", "Mills", "Munro", "Weir", "Wood", "St")))
 
 # add a way of incorporating power into the search
 names_powered <- full_list |>
@@ -47,12 +47,28 @@ road_names <- road_names |>
     Matched_Word = ifelse(Match == "Yes", str_extract(name_1, paste(full_list$Word, collapse = "|")), NA)
   )
 
+matched_roads <- road_names |>
+  filter(Match == "Yes")
+
+# check things are working; all the rows should read "Yes" under "Match"
+Ruthven_check_1 <- road_names |>
+  filter(str_detect(name_1, "Ruthven"))
+
 # join roadnames (matched for aristocrats) with roads
-roads_joined <- roads |> merge(
-  road_names,
-  # make sure we keep all the roads:
-  all.x = TRUE
-  ) |>
+roads_joined <- roads |>
+  
+  # save memory #1:
+  
+  select(
+    id, name_1, start_node, end_node, geometry
+  ) |> 
+  merge(
+    road_names,
+    
+    # make sure we keep all the roads:
+    
+    all.x = TRUE
+    ) |>
   
   # assign necessary characteristics to those with none
   mutate(
@@ -60,7 +76,7 @@ roads_joined <- roads |> merge(
     Power = replace_na(Power, 0)
     ) |>
   
-  # try removing some of the characteristics to save memory
+  # save memory #2:
   select(
     id, name_1,start_node, end_node, Match, Power, Matched_Word, geometry
   )

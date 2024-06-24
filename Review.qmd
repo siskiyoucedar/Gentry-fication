@@ -1,0 +1,29 @@
+---
+title: "Review"
+format: html
+editor: visual
+---
+
+## 1_Clean_Matching_Words
+
+Maybe extant / extinct could be left out. The truth of it is, whether a house still exists or not, it may have given its name to a road. Arguably the most obscure ones are the ones with the best odds here (because they tend, not universally, to be named after more obscure places).
+
+The code was simplified to exclude the status extinct/extant in the calculation of power; it is not based exclusively on "location" and whether a royal was ruling or regent.
+
+The location check isn't broad enough. I changed it to include a list of **all population centres over 50,000.**
+
+**To-do: re-add some code that can eliminate the extinct versions of houses that are extant on another name.**
+
+## 2_Get_Road_Names
+
+This script does nothing. It's the mapping that is far more extensive.
+
+## 3_Map_Words_to_Roads
+
+Challenging - the crunchpoint is joining roads to names.
+
+**To-do: perform an st_contains for roads in Greater London's geometry and then run the joining etc. on that**
+
+## 4_Plot_Roads
+
+Will need a new Ruthven_Check.

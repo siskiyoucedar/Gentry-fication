@@ -9,7 +9,7 @@ ideal <- tibble(
   "Power" = c(1, 0.25, 0.5, 1) # < function of status * location_match (where a 0 = 0.5)
 )
 
-# # # SURNAMES; PLACES
+### SURNAMES; PLACES
 
 # read in the duchies, marquesses, earldoms, viscounts
 full_list <- read.csv(
@@ -29,27 +29,9 @@ full_list <- full_list |>
     Status = tolower(Status)
   ) |>
   
-  # use grepl to split up double barreled names; "^[^-]+-" means "the thing before and including the hyphen"
-  # look for a hyphen. don't find a hyphen - keep things the same.
-  mutate(
-    Surname2 = ifelse(grepl("-", Surname), gsub("^[^-]+-", "", Surname), "")
-  ) |>
-  
-  # and another one that does the same but for the third hyphen
-  mutate(
-    Surname3 = ifelse(grepl("-", Surname2), gsub("^[^-]+-", "", Surname2), "")
-  ) |>
-  
-  # then make the original column just have the first half; "-.*$" means "the thing after and including the hyphen"
-  # so everything after the hyphen gets gone.
-  mutate(
-    Surname1 = ifelse(grepl("-", Surname), gsub("-.*$", "", Surname), Surname)
-  ) |>
-  
-  # and do the same with any extras left in surname 2
-  mutate(
-    Surname2 = ifelse(grepl("-", Surname2), gsub("-.*$", "", Surname2), Surname2)
-  ) |>
+ separate(
+   Surname, into=c("Surname1","Surname2","Surname3", sep = "-")
+ ) |>
   
   # finally, extract the placenames from the Title column
   # \\S+ matches one or more non-whitespace characters
@@ -100,65 +82,65 @@ full_list <- full_list |>
     Word, Type, Status,  
   )
 
-# # # LOCATION MATCHES
+## LOCATION MATCHES
 
 # read in the county towns .csv
+
 county_names <- read.csv(
   "words_input\\county_towns.csv"
 ) |>
   # fix format so we have one column of words to look for
+  
   pivot_longer(
     cols = c(County, County_town),
     names_to = "Type",
     values_to = "C_Word"
-  )
-
-# # POWER CALCULATION
-
-# create an artificial uncertainty indicator related to both geographical names and whether or not a house is extinct
-powers <- full_list |>
+  ) |>
+  
+  # change name to match what we're about to do next
+  
   select(
-    Word, Status
-  ) |>
-  unique(
-  ) |>
-  mutate(
-    Location_Match = ifelse(str_detect(Word, paste(county_names$C_Word, collapse = "|")), "Yes", "No")
-  ) |>
-  # the 0.01 means that an extinct house will always render extinct, even if it has multiple extinct branches
-  # but even one cross of extant and extinct will flag as a mixed status and reset to 1 max
-  mutate(
-    Power = ifelse((Status == "extant"), 1, 0.01)
-  ) |>
-  group_by(
-    Word
-  ) |>
-  summarise(
-    Power = ifelse((sum(Power) < 1), 0.5, 1)
+    search_word = C_Word 
   )
 
-# merge; remove duplicate values
+# do the same for all BUAs of over 50,00 (source: https://www.citypopulation.de/en/uk/cities/ua/)
+
+town_names <- read.csv(
+  "words_input\\BUAs.csv"
+) |>
+  rename(
+    search_word = BUA_name
+  )
+
+# bind BUAs and counties, towns
+
+all_names <- rbind(
+  town_names, county_names
+) |>
+unique()
+
+# tidy
+
+rm(county_names, town_names)
+
+## POWER CALCULATION
+
+# create an artificial uncertainty indicator related to geographical names that are also the names of titles
 full_list <- full_list |>
-  merge(
-    powers
-  ) |>
-  filter(
-    Status == "extant" | Status == "extinct" & Power == 0.5
-  ) |>
   
   # check for county towns and counties
   mutate(
-    Location_Match = ifelse(str_detect(Word, paste(county_names$C_Word, collapse = "|")), "Yes", "No")
+    Location_Match = ifelse(str_detect(Word, paste(all_names$search_word, collapse = "|")), "Yes", "No")
   ) |>
 
   # change power in response to this
   mutate(
-    "Power" = ifelse(Status == "extant", (ifelse(Location_Match == "No", 1, 0.5)), ifelse(Location_Match == "No", 0.5, 0.25))
+    "Power" = ifelse(Location_Match == "No", 1, 0.5)
   ) |>
   arrange(
     Type, Word, Status, Location_Match, Power
   )
-  
+
 # # # FIRST NAMES
   
 # read in the monarch .csv
@@ -223,4 +205,4 @@ write.csv(full_list,
 )
 
 # clear up
-rm(county_names, full_list, ideal, monarch_names, noun_names, powers)
+rm(all_names, full_list, ideal, monarch_names, noun_names, powers)
