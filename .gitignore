@@ -15,5 +15,8 @@
 *.sbx
 *.shx
 *.gpkg
-.words_output/road_names.csv
-"Whitaker's Almanack 2011.pdf"
+/_Source_data
+/_Spatial_data
+/_Processed_data
+/bin
+/_Images

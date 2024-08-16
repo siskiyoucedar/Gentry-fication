@@ -200,9 +200,9 @@ full_list <- as.data.frame(rbind(
 
 # write to disk
 write.csv(full_list, 
-          file = ".words_output\\all_names.csv", 
+          file = "_Processed_data/all_names.csv", 
           row.names = FALSE
 )
 
 # clear up
-rm(all_names, full_list, ideal, monarch_names, noun_names, powers)
+rm(all_names, full_list, ideal, monarch_names, noun_names)

@@ -1,17 +1,20 @@
 library(tidyverse)
 library(sf)
 
+### CONSIDER ADDING BUFFER POINTS FOR E.G CAMBRIDGE TO CONFIGURE IF A ROAD CALLED CAMBRIDGE ROAD IS GOING TO CAMBRIDGE
+# (AND COULD DO THE OPPOSITE FOR WEIRDLY NAMED HOUSES E.G HILL)
+
 # pull through the data
 full_list <- read.csv(
-  ".words_output\\all_names.csv"
+  "_Processed_data/all_names.csv"
 )
 road_names <- read.csv(
-  ".words_output\\road_names.csv"
+  "_Processed_data/road_names.csv"
 )
 
 # pull this one from OS website noted in readme
 G_pre_shape <- (
-  "roads_map\\oproad_gb.gpkg"
+  "_Spatial_data/oproad_gb.gpkg"
 )
 G_layers <- st_layers(
   G_pre_shape
@@ -25,10 +28,44 @@ roads <- st_read(
 #  G_pre_shape, "road_node"
 #)
 
+# try and eke out the Lowe problem
+
+# lowe_test <- road_names |>
+#   mutate(
+#     "Test" = ifelse(str_detect(name_1, "Lower"), 1, 0)
+#   ) |>
+#   filter(
+#     Test == 1
+#   )
+
+# create a list of the gentry words that excludes Lowe
+
+# no_lowe <- full_list |>
+#   filter(
+#     !(Word == "Lowe")
+#   )
+
+# see if any other roads are getting caught that happen to contain Lower
+
+# lowe_testing <- lowe_test |>
+#   mutate(
+#     Match = ifelse(str_detect(name_1, paste(no_lowe$Word, collapse = "|")), "Yes", "No")
+#   ) |>
+#   mutate(
+#     Matched_Word = ifelse(Match == "Yes", str_extract(name_1, paste(no_lowe$Word, collapse = "|")), NA)
+#   ) |>
+#   filter(
+#     Match == "Yes"
+#   )
+
+# ok, as there are a lot of "Lower Queen's St" etc., I think the best fix is to change "Lowe" for "Lowe " - which should hopefully work
+
+full_list[676, 3] = "Lowe "
+
 # do some brief corrections for surnames
 # remove geographical indicators
 full_list <- full_list |>
-  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Lee", "Long", "Mills", "Munro", "Weir", "Wood", "St")))
+  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Law", "Lee", "Long", "Mills", "Munro", "Weir", "Wood", "St")))
 
 # add a way of incorporating power into the search
 names_powered <- full_list |>
@@ -45,10 +82,7 @@ road_names <- road_names |>
   ) |>
   mutate(
     Matched_Word = ifelse(Match == "Yes", str_extract(name_1, paste(full_list$Word, collapse = "|")), NA)
-  )
-
-matched_roads <- road_names |>
-  filter(Match == "Yes")
+  ) 
 
 # check things are working; all the rows should read "Yes" under "Match"
 Ruthven_check_1 <- road_names |>
@@ -96,8 +130,8 @@ roads_joined |> filter(
 
 st_write(
   roads_joined, 
-  "roads_output.gpkg",
-  append = TRUE
+  "_Processed_data/roads_output.gpkg",
+  append = FALSE
   )
 
 # declutter

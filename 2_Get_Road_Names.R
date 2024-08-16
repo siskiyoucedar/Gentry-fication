@@ -5,7 +5,7 @@ library(sf)
 
 # read in the roads (available here: https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads#get)
 G_pre_shape <- (
-  "roads_map\\oproad_gb.gpkg"
+  "_Spatial_data/oproad_gb.gpkg"
 )
 G_layers <- st_layers(
   G_pre_shape
@@ -33,6 +33,6 @@ attr(road_names, "agr") <- NULL
 
 # keen to reduce load, let's save that to .csv
 write.csv(road_names, 
-          file = ".words_output\\road_names.csv", 
+          file = "_Processed_data/road_names.csv", 
           row.names = FALSE
 )
