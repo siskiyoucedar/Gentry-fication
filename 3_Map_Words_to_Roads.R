@@ -60,12 +60,12 @@ roads <- st_read(
 
 # ok, as there are a lot of "Lower Queen's St" etc., I think the best fix is to change "Lowe" for "Lowe " - which should hopefully work
 
-full_list[676, 3] = "Lowe "
-
 # do some brief corrections for surnames
 # remove geographical indicators
 full_list <- full_list |>
-  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Law", "Lee", "Long", "Mills", "Munro", "Weir", "Wood", "St")))
+  filter(!(Word %in% c("Beach", "Cave", "Craig", "Cross", "Hall", "Head", "Hill", "Lake", "Law", "Lee", "Long", "Mills", "Munro", "Weir", "Wood", "St"))) |>
+  mutate("Word2" = ifelse(Word == "Lowe", "Lowe ", Word)) |>
+  select( -Word) |> rename("Word" = Word2)
 
 # add a way of incorporating power into the search
 names_powered <- full_list |>

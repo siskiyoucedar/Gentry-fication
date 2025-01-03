@@ -83,6 +83,42 @@ tm_shape(london_map_matches) +
            lwd = 1
   ) 
 
+## a new map specifically for 30daymapchallenge
+tmap_mode("plot")
+breaks = c(8, 11, 14, 17, 20, 23, 26, 29)
+labels = c("8 to 11%","11 to 14%", "14 to 17%", "17 to 20%", "20 to 23%", "23 to 26%", "26 to 29%")
+
+tm_shape(london_map_matches) +
+  tm_polygons(col = "Match Percent", 
+              alpha = 0.7, 
+              breaks = breaks,
+              labels = labels,
+              title = " ",
+
+              palette = viridis(n = 7, option = "E", 
+                                begin = 0.15
+                                )) +
+  #tm_basemap(c(StreetMap = "OpenStreetMap", TopoMap = "OpenTopoMap")) +
+  tm_layout(
+            frame = FALSE,
+            legend.outside = TRUE,
+            legend.outside.position = c("right","bottom"),
+            legend.text.size = 1.3,
+            legend.text.fontfamily = "Accidental Presidency"
+            ) +
+  tm_shape(roads_london_matched) +
+  tm_lines(col = "navy",
+           alpha = 1,
+           legend.col.show = FALSE,
+           lwd = 2
+  ) +
+  tm_shape(roads_london_matched) +
+  tm_lines(col = "yellow", 
+           alpha = 1,
+           legend.col.show = FALSE,
+           lwd = 1
+  ) 
+
 wordcloud2(data = common_names, 
            fontFamily = "Accidental Presidency", 
            size = 1, 
